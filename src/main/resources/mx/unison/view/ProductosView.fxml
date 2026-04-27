@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="mx.unison.controller.ProductosController"
+      spacing="0" style="-fx-background-color: #23272f;">
+
+    <!-- Top Toolbar -->
+    <HBox styleClass="toolbar-dark" spacing="16" style="-fx-padding: 18 24 18 24;">
+        <Button fx:id="backButton" text="← Regresar" style="-fx-font-size: 12; -fx-padding: 8 12 8 12;" />
+        <Separator orientation="VERTICAL" />
+        <Button fx:id="addButton" text="+ Agregar" styleClass="button-primary" />
+        <Button fx:id="editButton" text="✎ Editar" styleClass="button-primary" />
+        <Button fx:id="deleteButton" text="✕ Eliminar" styleClass="button-warn" />
+        <Region HBox.hgrow="ALWAYS" />
+    </HBox>
+
+    <!-- TableView Container -->
+    <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 16;">
+        <TableView fx:id="tableView" styleClass="table-dark" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50" />
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150" />
+                <TableColumn fx:id="colDescripcion" text="Descripción" prefWidth="150" />
+                <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80" />
+                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100" />
+                <TableColumn fx:id="colAlmacen" text="Almacén" prefWidth="120" />
+                <TableColumn fx:id="colCreado" text="Creado" prefWidth="150" />
+                <TableColumn fx:id="colUltMod" text="Últ. Modificación" prefWidth="150" />
+                <TableColumn fx:id="colUltUsuario" text="Últ. Usuario" prefWidth="100" />
+            </columns>
+        </TableView>
+    </VBox>
+
+</VBox>
