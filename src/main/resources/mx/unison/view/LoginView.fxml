@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="mx.unison.controller.LoginController"
+      alignment="CENTER" spacing="0" prefWidth="350" prefHeight="420"
+      stylesheets="@dark-theme.css" styleClass="root-dark">
+    <VBox spacing="16" alignment="CENTER" maxWidth="300" styleClass="card-dark">
+        <Label text="Inicio de sesión" styleClass="title-card"/>
+        <VBox spacing="10" alignment="CENTER_LEFT" padding="10">
+            <Label text="Usuario:"/>
+            <TextField fx:id="userField" promptText="Ingresa tu usuario"/>
+            <Label text="Contraseña:"/>
+            <PasswordField fx:id="passField" promptText="Ingresa tu contraseña"/>
+        </VBox>
+        <Label fx:id="errorLabel" textFill="#ef4444" style="-fx-font-size:11pt;" visible="false"/>
+        <Button text="Iniciar sesión" fx:id="loginButton" maxWidth="Infinity" styleClass="button-primary"/>
+    </VBox>
+</VBox>
