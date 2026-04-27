@@ -14,6 +14,9 @@
         <javafx.version>21.0.2</javafx.version>
         <ormlite.version>6.1</ormlite.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <configuration>
+            <mainClass>mx.unison.MainApp</mainClass>
+        </configuration>
     </properties>
 
     <dependencies>
