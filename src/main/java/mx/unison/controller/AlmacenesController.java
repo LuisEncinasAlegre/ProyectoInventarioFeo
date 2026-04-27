@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import mx.unison.modelos.*;
+import javafx.geometry.Insets;
 
 import javafx.scene.layout.*;
 import javafx.scene.Scene;
