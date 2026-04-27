@@ -1,0 +1,89 @@
+.root-dark {
+    -fx-background-color: #23272f;
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.toolbar-dark {
+    -fx-background-color: #23272f;
+    -fx-padding: 18 24 18 24;
+    -fx-spacing: 16;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: #1a1c20;
+}
+
+.table-dark {
+    -fx-background-color: #25282f;
+    -fx-table-cell-border-color: #383b43;
+    -fx-text-background-color: white;
+    -fx-control-inner-background: #26282e;
+    -fx-selection-bar: #39434a;
+    -fx-selection-bar-non-focused: #333c42;
+    -fx-font-size: 14px;
+}
+.table-dark .column-header-background {
+    -fx-background-color: #23272f;
+}
+.table-dark .table-row-cell:selected {
+    -fx-background-color: #39434a;
+}
+.table-dark .table-cell {
+    -fx-text-fill: #e5e5ee;
+}
+
+/* Botón estilo primary, flat y warn */
+.button-primary {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8pt;
+    -fx-padding: 6 18 6 18;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, #192e4c55, 6, 0.2, 0, 2);
+    -fx-border-width: 0;
+}
+.button-primary:hover {
+    -fx-background-color: #1d4ed8;
+}
+.button-flat {
+    -fx-background-color: transparent;
+    -fx-border-width: 1;
+    -fx-border-color: #495167;
+    -fx-text-fill: #d1d5eb;
+    -fx-background-radius: 8pt;
+    -fx-padding: 6 18 6 18;
+}
+.button-warn {
+    -fx-background-color: #e35050;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8pt;
+    -fx-cursor: hand;
+}
+.button-warn:hover {
+    -fx-background-color: #c53030;
+}
+
+/* Card dialog minimalista dark mode */
+.card-dark {
+    -fx-background-color: #23252d;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(gaussian, #0f1118bb, 20, 0.2, 0, 4);
+}
+.title-card {
+    -fx-font-size: 20pt;
+    -fx-text-fill: #e9eaf1;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 16 0;
+}
+.label, .text-field {
+    -fx-text-fill: #e0e2ec;
+}
+.text-field {
+    -fx-background-color: #23272f, #383b47;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 6, 4;
+    -fx-padding: 8 12 8 12;
+    -fx-border-width: 1;
+    -fx-border-color: #303442;
+    -fx-text-fill: #fff;
+}

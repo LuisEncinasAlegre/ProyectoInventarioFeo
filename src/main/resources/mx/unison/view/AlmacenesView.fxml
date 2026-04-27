@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="mx.unison.controller.AlmacenesController"
+            styleClass="root-dark">
+
+    <!-- Top bar (Buttons in HBox, float left) -->
+    <top>
+        <HBox spacing="10" styleClass="toolbar-dark" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
+            <Button fx:id="backButton"   text="⟵ Regresar" styleClass="button-primary"/>
+            <Button fx:id="addButton"    text="+ Agregar"  styleClass="button-primary"/>
+            <Button fx:id="editButton"   text="✎ Modificar" styleClass="button-primary"/>
+            <Button fx:id="deleteButton" text="🗑 Eliminar" styleClass="button-warn"/>
+        </HBox>
+    </top>
+
+    <!-- Data Table -->
+    <center>
+        <TableView fx:id="tableView" styleClass="table-dark">
+            <columns>
+                <TableColumn fx:id="colId"         text="ID"        prefWidth="50"/>
+                <TableColumn fx:id="colNombre"     text="Nombre"    prefWidth="180"/>
+                <TableColumn fx:id="colUbicacion"  text="Ubicación" prefWidth="150"/>
+                <TableColumn fx:id="colCreado"     text="Creado"     prefWidth="160"/>
+                <TableColumn fx:id="colUltMod"     text="Últ.Mod"    prefWidth="160"/>
+                <TableColumn fx:id="colUltUsuario" text="Últ.Usuario" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
