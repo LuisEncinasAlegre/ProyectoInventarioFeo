@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import mx.unison.modelos.*;
-import mx.unison.vistas.Navigation;
+import mx.unison.MainApp;
 
 import java.security.MessageDigest;
 
@@ -28,10 +28,11 @@ public class LoginController {
         }
 
         loginButton.setOnAction(e -> login());
-        // permite usar ENTER
+        // ENTER en el campo de contraseña activa el login
         passField.setOnKeyPressed(evt -> {
             if (evt.getCode() == KeyCode.ENTER) login();
         });
+        // ENTER en usuario salta al campo contraseña
         userField.setOnKeyPressed(evt -> {
             if (evt.getCode() == KeyCode.ENTER) passField.requestFocus();
         });
@@ -50,8 +51,8 @@ public class LoginController {
             Usuario user = usuarioDAO.buscarPorNombre(username);
             if (user != null && md5(password).equalsIgnoreCase(user.password)) {
                 errorLabel.setVisible(false);
-                // Guardar último login, etc...
-                Navigation.loadView("/mx/unison/view/HomeView.fxml", "Inicio");
+                // Cambia a la pantalla principal (HomeView)
+                MainApp.setRoot("/mx/unison/view/HomeView.fxml");
             } else {
                 showError("Credenciales inválidas.");
             }
@@ -66,7 +67,7 @@ public class LoginController {
         errorLabel.setVisible(true);
     }
 
-    // MD5 hash. Usar igual que el proyecto original.
+    // MD5 hash para contraseñas (igual que en la base)
     public static String md5(String in) {
         if (in == null) return "";
         try {

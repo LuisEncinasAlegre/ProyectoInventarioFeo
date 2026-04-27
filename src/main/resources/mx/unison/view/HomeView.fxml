@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="mx.unison.controller.HomeController">
+
+    <!-- Menú lateral -->
+    <left>
+        <VBox spacing="18" styleClass="card-dark" alignment="TOP_CENTER"
+              prefWidth="210.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="btnProductos" text="Gestión de Productos" styleClass="button-primary" maxWidth="Infinity"/>
+                <Button fx:id="btnAlmacenes" text="Gestión de Almacenes" styleClass="button-primary" maxWidth="Infinity"/>
+                <HBox/>
+                <Button fx:id="btnCerrarSesion" text="Cerrar Sesión" styleClass="button-warn" maxWidth="Infinity"/>
+            </children>
+            <padding>
+                <Insets top="46" right="24" bottom="46" left="24"/>
+            </padding>
+            <VBox.margin>
+                <Insets top="24"/>
+            </VBox.margin>
+        </VBox>
+    </left>
+
+    <!-- Panel principal vacío o con un mensaje -->
+    <center>
+        <VBox alignment="CENTER" spacing="14">
+            <children>
+                <HBox/>
+                <Button text="Bienvenido al Sistema de Inventario" styleClass="title-card" disable="true" maxWidth="Infinity" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
