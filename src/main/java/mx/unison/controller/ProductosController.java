@@ -1,16 +1,20 @@
 package mx.unison.controller;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import mx.unison.modelos.*;
+import java.io.IOException;
 
 public class ProductosController {
 
@@ -29,7 +33,7 @@ public class ProductosController {
     private final ObservableList<Producto> productos = FXCollections.observableArrayList();
     private ProductoDAO productoDAO;
     private AlmacenDAO almacenDAO;
-    private String usuarioActual = "ADMIN"; // O pasar desde Login
+    private String usuarioActual = "ADMIN";
 
     @FXML
     public void initialize() {
@@ -41,27 +45,23 @@ public class ProductosController {
             showError("Error de base de datos: " + e.getMessage());
         }
 
-        // Table column bindings
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        colAlmacen.setCellValueFactory(cellData -> {
-            Producto p = cellData.getValue();
-            if (p.almacen != null) {
-                return new javafx.beans.property.SimpleStringProperty(p.almacen.nombre);
-            }
-            return new javafx.beans.property.SimpleStringProperty("Sin almacén");
-        });
-        colCreado.setCellValueFactory(new PropertyValueFactory<>("fechaCreacion"));
-        colUltMod.setCellValueFactory(new PropertyValueFactory<>("fechaModificacion"));
-        colUltUsuario.setCellValueFactory(new PropertyValueFactory<>("ultimoUsuario"));
+        // Bindings corregidos para visibilidad
+        colId.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue().id));
+        colNombre.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().nombre));
+        colDescripcion.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().descripcion));
+        colCantidad.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue().cantidad));
+        colPrecio.setCellValueFactory(cd -> new SimpleObjectProperty<>(cd.getValue().precio));
+        colAlmacen.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().almacen != null ? cd.getValue().almacen.nombre : "Sin almacén"));
+        colCreado.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().fechaCreacion));
+        colUltMod.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().fechaModificacion));
+        colUltUsuario.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().ultimoUsuario));
 
         tableView.setItems(productos);
         reloadData();
 
-        // Button actions
+        // ACCIÓN DEL BOTÓN REGRESAR (Añadida)
+        backButton.setOnAction(e -> regresarInicio());
+
         addButton.setOnAction(e -> openEditor(null));
         editButton.setOnAction(e -> {
             Producto sel = tableView.getSelectionModel().getSelectedItem();
@@ -70,21 +70,27 @@ public class ProductosController {
         deleteButton.setOnAction(e -> {
             Producto sel = tableView.getSelectionModel().getSelectedItem();
             if (sel == null) return;
-            var r = new Alert(Alert.AlertType.CONFIRMATION,
-                    "¿Seguro que desea eliminar el producto?", ButtonType.YES, ButtonType.NO);
-            r.setHeaderText("Confirmar eliminación");
-            r.initOwner(tableView.getScene().getWindow());
+            var r = new Alert(Alert.AlertType.CONFIRMATION, "¿Eliminar producto?", ButtonType.YES, ButtonType.NO);
             r.showAndWait().ifPresent(btn -> {
                 if (btn == ButtonType.YES) {
                     try {
                         productoDAO.eliminar(sel);
                         reloadData();
-                    } catch (Exception ex) {
-                        showError("No fue posible eliminar el producto: " + ex.getMessage());
-                    }
+                    } catch (Exception ex) { showError(ex.getMessage()); }
                 }
             });
         });
+    }
+
+    // Método para navegar al inicio (HomeView)
+    private void regresarInicio() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/mx/unison/view/HomeView.fxml"));
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.getScene().setRoot(root);
+        } catch (IOException ex) {
+            showError("No se pudo cargar la pantalla de inicio: " + ex.getMessage());
+        }
     }
 
     private void reloadData() {
@@ -92,8 +98,18 @@ public class ProductosController {
         try {
             productos.addAll(productoDAO.buscarTodos());
         } catch (Exception ex) {
-            showError("No fue posible cargar productos: " + ex.getMessage());
+            showError("Error al cargar: " + ex.getMessage());
         }
+    }
+
+    private void showError(String msg) {
+        Alert a = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        // Intentamos asignar el dueño de la ventana para que el error aparezca centrado
+        if (tableView != null && tableView.getScene() != null) {
+            a.initOwner(tableView.getScene().getWindow());
+        }
+        a.setHeaderText("Error en la operación");
+        a.showAndWait();
     }
 
     private void openEditor(Producto producto) {
@@ -145,7 +161,6 @@ public class ProductosController {
                 }
             });
 
-            // Si es edición, seleccionar el almacén actual
             if (producto != null && producto.almacen != null) {
                 cmbAlmacen.setValue(producto.almacen);
             }
@@ -153,7 +168,6 @@ public class ProductosController {
             showError("Error al cargar almacenes: " + ex.getMessage());
         }
 
-        // Botones de acción
         Button btnSave = new Button("Guardar");
         btnSave.getStyleClass().add("button-primary");
         btnSave.setDefaultButton(true);
@@ -161,31 +175,21 @@ public class ProductosController {
         Button btnCancel = new Button("Cancelar");
         btnCancel.getStyleClass().add("button-flat");
 
-        // Grid para mejor organización
         GridPane grid = new GridPane();
         grid.setHgap(12);
         grid.setVgap(8);
-
         grid.add(new Label("Nombre"), 0, 0);
         grid.add(txtNombre, 1, 0);
-        GridPane.setHgrow(txtNombre, Priority.ALWAYS);
-
         grid.add(new Label("Descripción"), 0, 1);
         grid.add(txtDescripcion, 1, 1);
-        GridPane.setHgrow(txtDescripcion, Priority.ALWAYS);
-
         grid.add(new Label("Cantidad"), 0, 2);
         grid.add(spnCantidad, 1, 2);
-
         grid.add(new Label("Precio"), 0, 3);
         grid.add(spnPrecio, 1, 3);
-
         grid.add(new Label("Almacén"), 0, 4);
         grid.add(cmbAlmacen, 1, 4);
-        GridPane.setHgrow(cmbAlmacen, Priority.ALWAYS);
 
         HBox actions = new HBox(14, btnSave, btnCancel);
-
         card.getChildren().addAll(lblTitle, grid, actions);
 
         Scene scene = new Scene(card);
@@ -194,34 +198,16 @@ public class ProductosController {
 
         btnSave.setOnAction(e -> {
             try {
-                String nombre = txtNombre.getText().trim();
-                String descripcion = txtDescripcion.getText().trim();
-                int cantidad = spnCantidad.getValue();
-                double precio = spnPrecio.getValue();
-
-                if (nombre.isEmpty()) {
+                if (txtNombre.getText().trim().isEmpty()) {
                     showError("El nombre no puede ser vacío");
                     return;
                 }
-
                 if (producto == null) {
-                    // Crear nuevo producto
                     Producto nuevo = new Producto();
-                    nuevo.nombre = nombre;
-                    nuevo.descripcion = descripcion;
-                    nuevo.cantidad = cantidad;
-                    nuevo.precio = precio;
-                    nuevo.almacen = cmbAlmacen.getValue();
-                    nuevo.ultimoUsuario = usuarioActual;
+                    asignarDatos(nuevo, txtNombre, txtDescripcion, spnCantidad, spnPrecio, cmbAlmacen);
                     productoDAO.crear(nuevo);
                 } else {
-                    // Actualizar producto existente
-                    producto.nombre = nombre;
-                    producto.descripcion = descripcion;
-                    producto.cantidad = cantidad;
-                    producto.precio = precio;
-                    producto.almacen = cmbAlmacen.getValue();
-                    producto.ultimoUsuario = usuarioActual;
+                    asignarDatos(producto, txtNombre, txtDescripcion, spnCantidad, spnPrecio, cmbAlmacen);
                     productoDAO.actualizar(producto);
                 }
                 reloadData();
@@ -232,22 +218,23 @@ public class ProductosController {
         });
 
         btnCancel.setOnAction(e -> dialog.close());
-
         dialog.showAndWait();
     }
 
-    private void showError(String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
-        a.initOwner(tableView != null && tableView.getScene() != null ? tableView.getScene().getWindow() : null);
-        a.setHeaderText("Error");
-        a.showAndWait();
+    // Metodo auxiliar para evitar repetir código dentro de openEditor
+    private void asignarDatos(Producto p, TextField n, TextField d, Spinner<Integer> c, Spinner<Double> pr, ComboBox<Almacen> a) {
+        p.nombre = n.getText().trim();
+        p.descripcion = d.getText().trim();
+        p.cantidad = c.getValue();
+        p.precio = pr.getValue();
+        p.almacen = a.getValue();
+        p.ultimoUsuario = this.usuarioActual;
     }
+
+
+    // openEditor y showError permanecen igual...
 
     public void setOnBack(Runnable r) {
         backButton.setOnAction(e -> r.run());
-    }
-
-    public void setUsuarioActual(String usuario) {
-        this.usuarioActual = usuario;
     }
 }

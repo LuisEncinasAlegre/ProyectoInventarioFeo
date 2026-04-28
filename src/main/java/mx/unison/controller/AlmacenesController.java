@@ -1,17 +1,19 @@
 package mx.unison.controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import mx.unison.modelos.*;
 import javafx.geometry.Insets;
-
 import javafx.scene.layout.*;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.io.IOException;
 
 public class AlmacenesController {
 
@@ -35,23 +37,25 @@ public class AlmacenesController {
             showError("Error de base de datos: " + e.getMessage());
         }
 
-        // Table column bindings (propiedades igual que tu modelo)
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colUbicacion.setCellValueFactory(new PropertyValueFactory<>("ubicacion"));
-        colCreado.setCellValueFactory(new PropertyValueFactory<>("fechaHoraCreacion"));
-        colUltMod.setCellValueFactory(new PropertyValueFactory<>("fechaHoraUltimaMod"));
-        colUltUsuario.setCellValueFactory(new PropertyValueFactory<>("ultimoUsuario"));
+        colId.setCellValueFactory(cellData -> new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().id));
+        colNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().nombre));
+        colUbicacion.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().ubicacion));
+        colCreado.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().fechaHoraCreacion));
+        colUltMod.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().fechaHoraUltimaMod));
+        colUltUsuario.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().ultimoUsuario));
 
         tableView.setItems(almacenes);
         reloadData();
 
         // Button actions
+        backButton.setOnAction(e -> regresarInicio());
+
         addButton.setOnAction(e -> openEditor(null));
         editButton.setOnAction(e -> {
             Almacen sel = tableView.getSelectionModel().getSelectedItem();
             if (sel != null) openEditor(sel);
         });
+
         deleteButton.setOnAction(e -> {
             Almacen sel = tableView.getSelectionModel().getSelectedItem();
             if (sel == null) return;
@@ -69,7 +73,18 @@ public class AlmacenesController {
                 }
             });
         });
-        // El boton backButton delega a un handler externo (método a configurar via callback en el Main)
+        // El boton backButton delega a un handler externo (metodo a configurar via callback en el Main)
+    }
+
+    private void regresarInicio() {
+        try {
+            // Cambia "MainView.fxml" por el nombre real de tu pantalla de inicio
+            Parent root = FXMLLoader.load(getClass().getResource("/mx/unison/view/HomeView.fxml"));
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage.getScene().setRoot(root);
+        } catch (IOException ex) {
+            showError("No se pudo cargar la pantalla de inicio: " + ex.getMessage());
+        }
     }
 
     private void reloadData() {

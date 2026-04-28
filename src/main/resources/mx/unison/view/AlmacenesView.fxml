@@ -12,6 +12,7 @@
     <top>
         <HBox spacing="10" styleClass="toolbar-dark" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
             <Button fx:id="backButton"   text="⟵ Regresar" styleClass="button-primary"/>
+            <Separator orientation="VERTICAL" />
             <Button fx:id="addButton"    text="+ Agregar"  styleClass="button-primary"/>
             <Button fx:id="editButton"   text="✎ Modificar" styleClass="button-primary"/>
             <Button fx:id="deleteButton" text="🗑 Eliminar" styleClass="button-warn"/>
