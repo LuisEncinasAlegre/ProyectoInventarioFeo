@@ -2,7 +2,10 @@
     -fx-background-color: #23272f;
     -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
 }
-
+.title-root-dark{
+    -fx-background-color: #23233e;
+    -fx-font-family: 'Segoe UI', 'Arial', sans-serif;
+}
 .toolbar-dark {
     -fx-background-color: #23272f;
     -fx-padding: 18 24 18 24;
@@ -71,7 +74,7 @@
 }
 .title-card {
     -fx-font-size: 20pt;
-    -fx-text-fill: #e9eaf1;
+    -fx-text-fill: #000000;
     -fx-font-weight: bold;
     -fx-padding: 0 0 16 0;
 }
@@ -86,4 +89,23 @@
     -fx-border-width: 1;
     -fx-border-color: #303442;
     -fx-text-fill: #fff;
+}
+.table-dark .column-header-background {
+    -fx-background-color: #1e293b;
+}
+.table-dark .column-header {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 1 1 0;
+}
+.table-dark .column-header .label {
+    -fx-text-fill: #f8fafc;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+}
+.table-dark .column-header:hover {
+    -fx-background-color: #334155;
+}
+.table-dark .filler {
+    -fx-background-color: #1e293b;
 }

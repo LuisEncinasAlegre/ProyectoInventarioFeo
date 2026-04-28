@@ -7,9 +7,11 @@
 <?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Label?>
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mx.unison.controller.HomeController">
+            fx:controller="mx.unison.controller.HomeController"
+            styleClass="title-root-dark">
 
     <!-- Menú lateral -->
     <left>
@@ -35,7 +37,7 @@
         <VBox alignment="CENTER" spacing="14">
             <children>
                 <HBox/>
-                <Button text="Bienvenido al Sistema de Inventario" styleClass="title-card" disable="true" maxWidth="Infinity" />
+                <Label text="Bienvenido al sistema de Inventario" styleClass="title-card" />
             </children>
         </VBox>
     </center>
