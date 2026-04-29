@@ -5,32 +5,58 @@ contraseña: admin123
 ARQUITECTURA DEL PROYECTO
 
 src/main/java/mx/unison/
+
 │
+
 ├── MainApp.java                 - Punto de entrada y configuración inicial
+
 ├── controller/                  - Lógica de control y eventos de UI
+
 │   ├── HomeController.java
+
 │   ├── LoginController.java
+
 │   ├── AlmacenesController.java
+
 │   └── ProductosController.java
+
 │
+
 ├── model/                       - Entidades del sistema (POJOs)
+
 │   ├── Usuario.java
+
 │   ├── Almacen.java
+
 │   └── Producto.java
+
 │
+
 ├── dao/                         - Capa de acceso a datos (Interfaces e Impl)
+
 │   ├── UsuarioDAO.java
+
 │   ├── AlmacenDAO.java
+
 │   ├── ProductoDAO.java
+
 │   └── impl/                    - Implementaciones específicas con ORMLite
+
 │
+
 ├── utils/                       - Clases de apoyo
+
 │   ├── Navigation.java          - Gestión de cambio de escenas
+
 │   └── DatabaseHelper.java      - Configuración de SQLite y tablas
+
 │
+
 └── resources/                   - Recursos visuales
-    ├── views/                   - Archivos FXML
-    └── styles/                  - Hojas de estilo CSS
+
+.    ├── views/                   - Archivos FXML
+
+.    └── styles/                  - Hojas de estilo CSS
     
 ---Punto de Entrada (MainApp)---
 Clase principal encargada de inicializar la conexión a la base de datos y cargar la escena de autenticación.
