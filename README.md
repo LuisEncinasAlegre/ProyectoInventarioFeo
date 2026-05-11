@@ -2,6 +2,9 @@ Primero que nada, para poder entrar al sistema por primera vez se tienen que int
 usuario: ADMIN
 contraseña: admin123
 
+Para ejecutar el proyecto se requiere utilizar Java24
+comando para ejecutar clean javafx:run
+
 ARQUITECTURA DEL PROYECTO
 
 src/main/java/mx/unison/
