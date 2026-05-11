@@ -66,6 +66,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>mx.unison.MainApp</mainClass>
+                    <executable>C:\Users\luisf\.jdks\corretto-24.0.2\bin\java.exe</executable>
                 </configuration>
             </plugin>
             <!-- Plugin para los tests -->
