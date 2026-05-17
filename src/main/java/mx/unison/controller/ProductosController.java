@@ -222,7 +222,7 @@ public class ProductosController {
     }
 
     // Metodo auxiliar para evitar repetir código dentro de openEditor
-    private void asignarDatos(Producto p, TextField n, TextField d, Spinner<Integer> c, Spinner<Double> pr, ComboBox<Almacen> a) {
+    public void asignarDatos(Producto p, TextField n, TextField d, Spinner<Integer> c, Spinner<Double> pr, ComboBox<Almacen> a) {
         p.nombre = n.getText().trim();
         p.descripcion = d.getText().trim();
         p.cantidad = c.getValue();
